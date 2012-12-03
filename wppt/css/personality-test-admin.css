@@ -33,7 +33,7 @@
   display: inline-block;
   margin-top: 10px;
 }
-#pwsq-message{
+#wppt-message{
   height: 0;
   opacity: 0;
   -webkit-animation: hide-message 5s ease-out;

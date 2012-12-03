@@ -8,8 +8,8 @@ Version: 1.0
 Author URI: http://www.code-latte.com
 */
 
-$plugin_setting_name = "Personality Test Setting";
-$shortname = 'pwsq';
+$plugin_setting_name = "Personality Test";
+$shortname = 'wppt';
 
 function get_post_for($title, $type = 'page'){
   global $wpdb;
@@ -38,7 +38,7 @@ function get_post_name_for($name, $type = 'page'){
 }
 
 // OPTION
-function pwsq_option($opt, $echo = true, $with_permalink = false){
+function wppt_option($opt, $echo = true, $with_permalink = false){
   global $shortname;
   
   if($echo){
@@ -142,7 +142,7 @@ array( "type" => "close"),
 
 );
 
-function pwsq_admin_menu() {
+function wppt_admin_menu() {
   global $plugin_setting_name, $shortname, $options;
 
   if ( isset($_GET['page']) && isset($_GET['post_type']) && $_GET['page'] == 'personality-test-setting' && $_GET['post_type'] == 'personality-test' ) {
@@ -166,7 +166,7 @@ function personality_test_setting(){
   mytheme_admin();
 }
 
-function pwsq_admin_init() {
+function wppt_admin_init() {
   pt_add_admin_statics();
 }
 
@@ -186,7 +186,7 @@ function mytheme_admin() {
   global $plugin_setting_name, $shortname, $options;
   $i=0;
 
-  if ( @$_GET['saved'] ) echo '<div id="pwsq-message" class="updated fade"><p><strong>'.$plugin_setting_name.' settings saved.</strong></p></div>';
+  if ( @$_GET['saved'] ) echo '<div id="wppt-message" class="updated fade"><p><strong>'.$plugin_setting_name.' settings saved.</strong></p></div>';
   ?>
   
 <style>
@@ -426,8 +426,8 @@ function mytheme_admin() {
 <?php
 }
 
-add_action('admin_init', 'pwsq_admin_init');
-add_action('admin_menu', 'pwsq_admin_menu');
+add_action('admin_init', 'wppt_admin_init');
+add_action('admin_menu', 'wppt_admin_menu');
 
 function isAjax ()
 {
@@ -444,18 +444,18 @@ function wp_query_title_custom_filter1( $where, &$wp_query )
     return $where;
 }
 
-function pwsq_static_css(){
+function wppt_static_css(){
   wp_register_style('avgrund', plugins_url('css/avgrund.css', __FILE__));
   wp_register_style('css3graph', plugins_url('css/graph.css', __FILE__));
-  wp_register_style('pwsq', plugins_url('css/pwsq.css', __FILE__));
+  wp_register_style('wppt', plugins_url('css/wppt.css', __FILE__));
   wp_enqueue_style('avgrund');
   wp_enqueue_style('css3graph');
-  wp_enqueue_style('pwsq');
+  wp_enqueue_style('wppt');
 }
-add_action('wp_enqueue_scripts', 'pwsq_static_css');
+add_action('wp_enqueue_scripts', 'wppt_static_css');
 
 
-function pwsq_static_js(){
+function wppt_static_js(){
   wp_enqueue_script(
     'ICanHaz',
     plugins_url('js/ICanHaz.min.js', __FILE__),
@@ -467,12 +467,12 @@ function pwsq_static_js(){
     array('jquery')
   );
   wp_enqueue_script(
-    'pwsq',
-    plugins_url('js/pwsq.js', __FILE__),
+    'wppt',
+    plugins_url('js/wppt.js', __FILE__),
     array('jquery')
   );
 }
-add_action('wp_enqueue_scripts', 'pwsq_static_js');
+add_action('wp_enqueue_scripts', 'wppt_static_js');
 
 function pt_add_admin_statics(){
   wp_enqueue_style('wp-admin');
@@ -629,7 +629,7 @@ function pt_columns_head($defaults){
 function pt_columns_content($column_name, $post_ID){
   if($column_name == 'shortcode'){
     $pt = get_post($post_ID);
-    echo "[pwsq test=\"{$pt->post_name}\"]";
+    echo "[wppt test=\"{$pt->post_name}\"]";
   }
   if($column_name == 'n_question'){
     $custom = get_post_custom($post_ID);
@@ -710,11 +710,11 @@ function filter_post_title( $where = '' ) {
 }
 
 // add avgrund cover
-function pwsq_footer(){
+function wppt_footer(){
   echo '<div class="avgrund-cover"></div>';
 }
 
-add_action('wp_footer', 'pwsq_footer');
+add_action('wp_footer', 'wppt_footer');
 
 function render_test_session($post_name){
   // query
@@ -725,13 +725,13 @@ function render_test_session($post_name){
 ?>
   <script>
     var qa, qa_list = [];
-    var pwsq_data = {};
+    var wppt_data = {};
     jQuery(document).ready(function($){
       <?php
         if($_pt_meta_qa_list){
       ?>
       qa_list = <?php echo json_encode($_pt_meta_qa_list); ?>;
-      pwsq_data.qa_list = qa_list;
+      wppt_data.qa_list = qa_list;
       <?php   
         }
       ?>
@@ -744,26 +744,26 @@ function render_test_session($post_name){
 
   <script>
     jQuery(document).ready(function($){
-      $('.pwsq-fb-share').click(function(){
-        window.open('https://www.facebook.com/dialog/feed?app_id=431800813539623&link=<?php the_permalink(); ?>&picture=<?php echo plugins_url("images/pwsq-chart.png", __FILE__); ?>&name=Entrepreneur Rumahan&caption=Kuesioner Minat – Kepribadian&description=Kuesioner oleh http://www.entrepreneurrumahan.com, cek minat dan kepribadianmu&redirect_uri=http://facebook.com/');
+      $('.wppt-fb-share').click(function(){
+        window.open('https://www.facebook.com/dialog/feed?app_id=431800813539623&link=<?php the_permalink(); ?>&picture=<?php echo plugins_url("images/wppt-chart.png", __FILE__); ?>&name=Entrepreneur Rumahan&caption=Kuesioner Minat – Kepribadian&description=Kuesioner oleh http://www.entrepreneurrumahan.com, cek minat dan kepribadianmu&redirect_uri=http://facebook.com/');
       });
     });
   </script>
 
-  <section id="pwsq">
-    <aside id="pwsq-intro" class="avgrund-contents transition show-step">
-      <h2><?php pwsq_option('intro_title'); ?></h2>
-      <p><?php pwsq_option('intro_content'); ?></p>
-      <button class="pwsq-start blue-pill"><?php pwsq_option('intro_start_button'); ?></button>
+  <section id="wppt">
+    <aside id="wppt-intro" class="avgrund-contents transition show-step">
+      <h2><?php wppt_option('intro_title'); ?></h2>
+      <p><?php wppt_option('intro_content'); ?></p>
+      <button class="wppt-start blue-pill"><?php wppt_option('intro_start_button'); ?></button>
     </aside>
     <aside id="acquire-user-data" class="avgrund-popup">
-      <h2><?php pwsq_option('pu_title'); ?></h2>
-      <?php pwsq_option('pu_name_label'); ?> <input type="text" class="userdata-name" placeholder="<?php pwsq_option('pu_name_placeholder'); ?>">
-      <button class="close-popup blue-pill"><?php pwsq_option('pu_button'); ?></button>
+      <h2><?php wppt_option('pu_title'); ?></h2>
+      <?php wppt_option('pu_name_label'); ?> <input type="text" class="userdata-name" placeholder="<?php wppt_option('pu_name_placeholder'); ?>">
+      <button class="close-popup blue-pill"><?php wppt_option('pu_button'); ?></button>
     </aside>
     
-    <div id="pwsq-report" class="transition hide-step hidden">
-      <h2><span class="report-userdata-name"></span>! <?php pwsq_option('report_title'); ?></h2>
+    <div id="wppt-report" class="transition hide-step hidden">
+      <h2><span class="report-userdata-name"></span>! <?php wppt_option('report_title'); ?></h2>
       
       <input type="radio" name="resize-graph" id="graph-normal" checked="checked" class="hidden" />
       <input type="radio" name="paint-graph" id="graph-blue" checked="checked" class="hidden" />
@@ -840,9 +840,9 @@ function render_test_session($post_name){
         </li>
     </ul>
     
-    <div id="pwsq-share">
+    <div id="wppt-share">
       <div>
-        <a class="pwsq-fb-share" href="javascript:;"></a>
+        <a class="wppt-fb-share" href="javascript:;"></a>
         <a href="https://twitter.com/share" class="twitter-share-button" data-text="Kuesioner oleh http://www.entrepreneurrumahan.com, cek minat dan kepribadianmu dengan klik" data-lang="id" data-count="none">Tweet</a>
         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>  
       </div>
@@ -850,11 +850,11 @@ function render_test_session($post_name){
       
     </div>
     
-    <div id="pwsq-content" class="transition hide-step">
-      <h2><?php pwsq_option('pt_title'); ?> <span class="content-userdata-name"></span></h2>
-      <p><?php pwsq_option('pt_content'); ?></p>
+    <div id="wppt-content" class="transition hide-step">
+      <h2><?php wppt_option('pt_title'); ?> <span class="content-userdata-name"></span></h2>
+      <p><?php wppt_option('pt_content'); ?></p>
       <ol id='qa-list'></ol>
-      <p align="center"><button class="blue-pill pwsq-finish"><?php pwsq_option('pt_button'); ?></button></p>
+      <p align="center"><button class="blue-pill wppt-finish"><?php wppt_option('pt_button'); ?></button></p>
     </div>
     
     <script id='qa' type='text/html'>
@@ -875,7 +875,7 @@ function render_test_session($post_name){
   endif; // if($pt):
 }
 
-function pwsq_sc($atts){
+function wppt_sc($atts){
   extract(shortcode_atts(array(
     'test' => ''
   ), $atts));
@@ -888,5 +888,5 @@ function pwsq_sc($atts){
   }
 }
 
-add_shortcode('pwsq', 'pwsq_sc');
+add_shortcode('wppt', 'wppt_sc');
 ?>

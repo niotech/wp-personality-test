@@ -51,7 +51,7 @@ html{
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4D8SMQAwGcAY2AbBKDBUAVuYCBQPd34sAAAAASUVORK5CYII=);
   background-repeat: repeat;
 }
-#pwsq-intro{
+#wppt-intro{
   text-align: center;
 }
 #acquire-user-data{
@@ -64,10 +64,10 @@ html{
   text-transform: none !important;
   width: 90%;
 }
-#pwsq-content{
+#wppt-content{
 
 }
-#pwsq-report{
+#wppt-report{
 
 }
 #qa-list .qa-item:nth-child(odd){
@@ -108,7 +108,7 @@ html{
   display: none;
   visibility: hidden;
 }
-.pwsq-fb-share{
+.wppt-fb-share{
   background: url('../images/fb-share.png') no-repeat center center transparent;
   display: inline-block;
   height: 23px;
@@ -116,14 +116,14 @@ html{
   vertical-align: middle;
   width: 62px;
 }
-#pwsq-share{
+#wppt-share{
   display: table;
   margin: 0 auto 50px;
 }
-#pwsq-share > div{
+#wppt-share > div{
   display: table-cell;
 }
 
-#pwsq-share > div > iframe{
+#wppt-share > div > iframe{
   vertical-align: middle;
 }
